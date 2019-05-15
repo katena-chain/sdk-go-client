@@ -13,9 +13,11 @@ import (
 )
 
 // Time is a time.Time wrapper.
-type Time time.Time
+type Time struct {
+    time.Time
+}
 
-// MarshalJSON converts a Time into a time.Time and marshals its UTC value.
+// MarshalJSON converts a Time into a time.Time and marshals its UTC rounded value.
 func (t Time) MarshalJSON() ([]byte, error) {
-    return json.Marshal((*time.Time)(&t).Round(0).UTC())
+    return json.Marshal(t.Time.Round(0).UTC())
 }

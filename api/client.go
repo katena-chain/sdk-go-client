@@ -30,12 +30,12 @@ func NewClient(apiUrl string) *Client {
 }
 
 // Get wraps the doRequest method to do a GET HTTP request.
-func (c *Client) Get(route string, queryValues map[string]string) (*Response, error) {
+func (c *Client) Get(route string, queryValues map[string]string) (*RawResponse, error) {
     return c.doRequest("GET", route, queryValues, nil)
 }
 
 // Post wraps the doRequest method to do a POST HTTP request.
-func (c *Client) Post(route string, queryValues map[string]string, body interface{}) (*Response, error) {
+func (c *Client) Post(route string, queryValues map[string]string, body interface{}) (*RawResponse, error) {
     return c.doRequest("POST", route, queryValues, body)
 }
 
@@ -46,7 +46,7 @@ func (c *Client) doRequest(
     route string,
     queryValues map[string]string,
     body interface{},
-) (*Response, error) {
+) (*RawResponse, error) {
     req := fasthttp.AcquireRequest()
     resp := fasthttp.AcquireResponse()
     defer func() {
@@ -82,14 +82,14 @@ func (c *Client) doRequest(
         return nil, err
     }
 
-    return &Response{
+    return &RawResponse{
         StatusCode: resp.StatusCode(),
         Body:       resp.Body(),
     }, nil
 }
 
 // Response is a fasthttp.Response wrapper.
-type Response struct {
+type RawResponse struct {
     StatusCode int
     Body       []byte
 }

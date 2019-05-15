@@ -7,12 +7,7 @@
 
 package entity
 
-import (
-    "github.com/katena-chain/sdk-go-client/utils"
-)
-
 // Message sets the default methods a real message must implement.
 type Message interface {
-    ToTypedObject() *utils.JSONWrapper
     GetType() string
 }

@@ -13,8 +13,8 @@ import (
 
 // JSONWrapper wraps an interface with its corresponding custom type.
 type JSONWrapper struct {
-    Value interface{} `json:"value"`
-    Type  string      `json:"type"`
+    Value json.RawMessage `json:"value"`
+    Type  string          `json:"type"`
 }
 
 // MarshalAndSortJSON sorts alphabetically the json representation of an interface and returns its marshaled value.

@@ -17,46 +17,21 @@ format, sign and send a transaction.
 
 Feel free to explore and modify its code to meet your expectations.
 
-Here is a snippet to demonstrate its usage:
+## Examples
 
-```go
-package main
+Detailed examples are provided in the `examples` folder to explain how to use our `Transactor` helper methods.
 
-import (
-    "fmt"
-    "strconv"
-    "strings"
+Available examples:
+* Send a `Certificate`
+* Retrieve a `Certificate`
+* Encrypt and send a `Secret`
+* Retrieve a list of `Secret`
 
-    "github.com/katena-chain/sdk-go-client/client"
-)
-
-func main() {
-
-    apiUrl := "https://api.demo.katena.transchain.io"
-    apiUrlSuffix := "api/v1"
-    chainID := "katena-chain"
-    privateKeyBase64 := "7C67DeoLnhI6jvsp3eMksU2Z6uzj8sqZbpgwZqfIyuCZbfoPcitCiCsSp2EzCfkY52Mx58xDOyQLb1OhC7cL5A=="
-    companyChainID := "abcdef"
-
-    transactor, err := client.NewTransactor(apiUrl, apiUrlSuffix, chainID, privateKeyBase64, companyChainID)
-    if err != nil {
-        panic(err)
-    }
-
-    uuidv4 := "2075c941-6876-405b-87d5-13791c0dc53a"
-    dataSignature := "document_signature_value"
-    dataSigner := "document_signer_value"
-    apiResponse, err := transactor.SendCertificate(uuidv4, dataSignature, dataSigner)
-    if err != nil {
-        panic(err)
-    }
-
-    fmt.Println("API status code : " + strconv.Itoa(apiResponse.StatusCode))
-    fmt.Println("API body        : " + strings.Replace(string(apiResponse.Body), "\n", "", -1))
-
-}
+For instance, to send a certificate:
+```bash
+go run examples/send_certificate/main.go
 ```
 
 ## Katena documentation
 
-For more information, check the [katena documentation](https://doc.katena.transchain.io)
+For more information, check the [katena documentation](https://doc.katena.transchain.io).

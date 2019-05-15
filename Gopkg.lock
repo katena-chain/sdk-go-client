@@ -42,14 +42,31 @@
   version = "v1.2.0"
 
 [[projects]]
-  digest = "1:d5891c5bca9c62e5d394ca26491d2b710a1dc08cedeb0ca8f9ac4c3305120b02"
+  digest = "1:c982a46a81bb1548326c327b0b5cf340cfbe28f84d95a7dd4b0a19d61fd35500"
   name = "golang.org/x/crypto"
   packages = [
+    "curve25519",
     "ed25519",
     "ed25519/internal/edwards25519",
+    "internal/subtle",
+    "nacl/box",
+    "nacl/secretbox",
+    "poly1305",
+    "salsa20/salsa",
   ]
   pruneopts = "UT"
   revision = "38d8ce5564a5b71b2e3a00553993f1b9a7ae852f"
+
+[[projects]]
+  branch = "master"
+  digest = "1:8acf841d7417aa2621a2b923f6262673033d407053ab49a4db9ec34378e1b49b"
+  name = "golang.org/x/sys"
+  packages = [
+    "cpu",
+    "unix",
+  ]
+  pruneopts = "UT"
+  revision = "d89cdac9e8725f2aefce25fcbfef41134c9ad412"
 
 [solve-meta]
   analyzer-name = "dep"
@@ -57,6 +74,7 @@
   input-imports = [
     "github.com/valyala/fasthttp",
     "golang.org/x/crypto/ed25519",
+    "golang.org/x/crypto/nacl/box",
   ]
   solver-name = "gps-cdcl"
   solver-version = 1

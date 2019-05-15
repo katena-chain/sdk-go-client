@@ -10,5 +10,7 @@ package certify
 const certifyNs = "certify"
 
 // Default type values for each interface implementation.
-const certificateV1Type = certifyNs + "/CertificateV1"
-const msgCreateCertificateType = certifyNs + "/MsgCreateCertificate"
+const CertificateV1Type = certifyNs + "/CertificateV1"
+const SecretV1Type = certifyNs + "/SecretV1"
+const MsgCreateCertificateType = certifyNs + "/MsgCreateCertificate"
+const MsgCreateSecretType = certifyNs + "/MsgCreateSecret"

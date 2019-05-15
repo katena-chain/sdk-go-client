@@ -8,19 +8,11 @@
 package entity
 
 import (
-    "github.com/katena-chain/sdk-go-client/crypto"
+    "github.com/katena-chain/sdk-go-client/crypto/ED25519"
 )
 
 // Seal is a wrapper to an ED25519 signature and its corresponding ED25519 public key.
 type Seal struct {
-    Signature *crypto.SignatureED25519 `json:"signature"`
-    Signer    *crypto.PublicKeyED25519 `json:"signer"`
-}
-
-// Seal constructor.
-func NewSeal(signature *crypto.SignatureED25519, signer *crypto.PublicKeyED25519) *Seal {
-    return &Seal{
-        Signature: signature,
-        Signer:    signer,
-    }
+    Signature *ED25519.Signature `json:"signature"`
+    Signer    *ED25519.PublicKey `json:"signer"`
 }

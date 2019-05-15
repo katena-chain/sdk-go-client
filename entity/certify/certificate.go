@@ -13,13 +13,20 @@ import (
     "github.com/katena-chain/sdk-go-client/utils"
 )
 
+// Certificate sets the default methods a real certificate must implement.
+type Certificate interface {
+    GetUuid() string
+    GetCompanyChainID() string
+    GetType() string
+}
+
 // dataSeal is a wrapper to a raw signature (16 < x < 128 bytes) and its corresponding raw signer (16 < x < 128 bytes).
 type dataSeal struct {
     Signature []byte `json:"signature"`
     Signer    []byte `json:"signer"`
 }
 
-// CertificateV1 is the first version of a data certificate to send in a transaction's message.
+// CertificateV1 is the first version of a certificate to send in a transaction's message.
 // It should implement the Certificate interface.
 type CertificateV1 struct {
     Uuid           string    `json:"uuid"`
@@ -51,33 +58,17 @@ func (c CertificateV1) GetCompanyChainID() string {
 
 // GetType returns the type value (Certificate interface requirement).
 func (c CertificateV1) GetType() string {
-    return certificateV1Type
+    return CertificateV1Type
 }
-
-// jsonCertificateV1 wraps a CertificateV1 for its json marshaled value.
-type jsonCertificateV1 CertificateV1
 
 // MarshalJSON converts a CertificateV1 into a jsonCertificateV1 and wraps
 // it in a JSONWrapper to indicate which version of a certificate should be
 // unmarshaled back.
 func (c CertificateV1) MarshalJSON() ([]byte, error) {
+    type jsonAlias CertificateV1
+    value, _ := json.Marshal((*jsonAlias)(&c))
     return json.Marshal(&utils.JSONWrapper{
         Type:  c.GetType(),
-        Value: (*jsonCertificateV1)(&c),
+        Value: value,
     })
-}
-
-// UnmarshalJSON converts a jsonCertificateV1 wrapped in a JSONWrapper into a CertificateV1.
-func (c *CertificateV1) UnmarshalJSON(data []byte) error {
-    jsonValue := &utils.JSONWrapper{
-        Value: (*jsonCertificateV1)(c),
-    }
-    if err := json.Unmarshal(data, jsonValue); err != nil {
-        return err
-    }
-    value := (jsonValue.Value).(*jsonCertificateV1)
-    c.CompanyChainID = value.CompanyChainID
-    c.Uuid = value.Uuid
-    c.Seal = value.Seal
-    return nil
 }
