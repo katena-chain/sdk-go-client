@@ -37,7 +37,13 @@ func NewHandler(apiUrl string) *Handler {
 
 // SendCertificate accepts a transaction and sends it to the appropriate certificate API route.
 func (h *Handler) SendCertificate(transaction *entityApi.Transaction) (*entityApi.TransactionStatus, error) {
-    return h.SendTransaction(certificateCertifyRoute, transaction)
+    data, err := json.Marshal(transaction)
+
+    if err != nil {
+        return nil, err
+    }
+
+    return h.SendTransaction(certificateCertifyRoute, data)
 }
 
 // SendSecret accepts a transaction and sends it to the appropriate secret API route.
@@ -46,8 +52,13 @@ func (h *Handler) SendSecret(
     companyChainID string,
     certificateUuid string,
 ) (*entityApi.TransactionStatus, error) {
+    data, err := json.Marshal(transaction)
 
-    return h.SendTransaction(fmt.Sprintf(secretCertifyRoute, companyChainID, certificateUuid), transaction)
+    if err != nil {
+        return nil, err
+    }
+
+    return h.SendTransaction(fmt.Sprintf(secretCertifyRoute, companyChainID, certificateUuid), data)
 }
 
 // RetrieveCertificate fetches the API and returns a transaction wrapper or an error.
@@ -83,7 +94,7 @@ func (h *Handler) RetrieveSecrets(
 // SendTransaction tries to send a transaction to the API and returns a transaction status or an error.
 func (h *Handler) SendTransaction(
     route string,
-    transaction *entityApi.Transaction,
+    transaction []byte,
 ) (*entityApi.TransactionStatus, error) {
 
     apiResponse, err := h.apiClient.Post(route, nil, transaction)

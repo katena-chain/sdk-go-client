@@ -8,8 +8,6 @@
 package api
 
 import (
-    "encoding/json"
-
     "github.com/valyala/fasthttp"
 
     "github.com/katena-chain/sdk-go-client/utils"
@@ -35,7 +33,7 @@ func (c *Client) Get(route string, queryValues map[string]string) (*RawResponse,
 }
 
 // Post wraps the doRequest method to do a POST HTTP request.
-func (c *Client) Post(route string, queryValues map[string]string, body interface{}) (*RawResponse, error) {
+func (c *Client) Post(route string, queryValues map[string]string, body []byte) (*RawResponse, error) {
     return c.doRequest("POST", route, queryValues, body)
 }
 
@@ -45,7 +43,7 @@ func (c *Client) doRequest(
     method string,
     route string,
     queryValues map[string]string,
-    body interface{},
+    body []byte,
 ) (*RawResponse, error) {
     req := fasthttp.AcquireRequest()
     resp := fasthttp.AcquireResponse()
@@ -68,11 +66,7 @@ func (c *Client) doRequest(
 
     if body != nil {
         req.Header.SetContentType("application/json")
-        marshaledBody, err := json.Marshal(body)
-        if err != nil {
-            return nil, err
-        }
-        req.SetBody(marshaledBody)
+        req.SetBody(body)
     }
 
     req.Header.SetMethod(method)
