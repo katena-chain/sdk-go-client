@@ -1,5 +1,7 @@
 # SDK Go Client
 
+Please use [sdk-go](https://github.com/katena-chain/sdk-go) instead.
+
 ## Requirements
 
 - Go >= 1.10
